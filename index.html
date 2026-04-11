@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Gerenciador de Assinaturas</title>
+</head>
+
+<body>
+    
+    <div id="fundo">
+        <!-- Cabeçalho de informações do sistema -->
+        <header>
+            <div class="titulo">
+                <h1>Hello World!</h1>
+            </div>
+        </header>
+
+        <section class="tabela-clientes">
+            <table id="tabela-clientes">
+                <tr id>
+                    <th>id</th>
+                    <th>nome</th>
+                    <th>assinatura_id</th>
+                    <th>estado_assinatura</th>
+                </tr>
+            </table>
+            <button onclick="montarTabelaClientes()" class="btn-listar">Listar Clientes</button>
+        </section>
+
+        <section id="card-detalhes-cliente">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>CPF</th>
+                </tr>
+                <tr>
+                    <td id="cliente-id">-</td>
+                    <td id="cliente-cpf">-</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                </tr>
+                <tr>
+                    <td id="cliente-nome">-</td>
+                    <td id="cliente-email">-</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th>Data de Nascimento</th>
+                    <th>Data de Cadastro</th>
+                </tr>
+                <tr>
+                    <td id="cliente-data-nascimento">-</td>
+                    <td id="cliente-data-cadastro">-</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th>Assinatura ID</th>
+                    <th>Estado da Assinatura</th>
+                </tr>
+                <tr>
+                    <td id="cliente-assinatura-id">-</td>
+                    <td id="cliente-estado-assinatura">-</td>
+                </tr>
+            </table>
+            <table>
+            <tr>
+                <th>Ultima Atualizacao da Assinatura</th>
+                <th>Data de Vigencia da Assinatura</th>
+            </tr>
+            <tr>
+                <td id="cliente-ultima-atualizacao">-</td>
+                <td id="cliente-data-vigencia">-</td>
+            </tr>
+            </table>
+        </section>
+
+        <script src="./src/App.js"></script>
+        <script src="./src/model/ClienteModel.js"></script>
+    </div>
+</body>
+</html>

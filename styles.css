@@ -5,11 +5,14 @@ li {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: rgb(225, 222, 199);
+}
+
+html,
+body {
+    height: 100%;
 }
 
 header {
-    background-color: rgb(225, 222, 199);
     text-align: center;
     position: relative;
     width: 100%;
@@ -18,7 +21,7 @@ header {
 .titulo {
     color: white;
     width: 100%;
-    background-color: rgb(35, 32, 24);
+    background-color: black;
     display: inline-block;
     padding: 2px 0px;
     position: sticky;
@@ -26,49 +29,113 @@ header {
 }
 
 .btn-listar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 36px;
+    align-self: flex-start;
+    flex: 0 0 auto;
     padding: 9px 10px;
-    background-color: rgb(35, 32, 24);
+    background-color: black;
     color: white;
     text-align: center;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
     border-radius: 2px;
+    
+    /* pra centralizar ao centro do cabeçalho da tabela */
+    margin-top: calc((48px - 36px) / 2);
 }
 
 .btn-listar:hover {
-    background-color: #2ab53a;
-    color: white;
+    background-color: greenyellow;
+    color: black;
+    font-weight: bold;
 }
 
 .tabela-clientes {
-    margin: 0;
+    margin-top: 40px;
     padding: 0;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    gap: 12px;
 }
 
-table,
-th {
+.tabela-clientes table {
     border: 1px solid black;
     border-collapse: collapse;
     cursor: pointer;
     position: relative;
-    padding: 12px 8px 12px 10px;
     font-size: 18px;
     transition: 0.2s;
     text-align: start;
-}
-
-table{
     background-color: white;
     width: 50%;
 }
 
-tr:nth-child(odd){
-    background-color: #eee;
+.tabela-clientes th {
+    border: 1px solid black;
+    padding: 12px 8px 12px 10px;
+    text-align: start;
+    height: 48px;
+    box-sizing: border-box;
 }
 
-tr:hover {
-    background: rgb(200, 199, 199);
+.tabela-clientes td {
+    border: 1px solid black;
+    padding: 2px 0px 2px 4px;
+    font-size: 16px;
+    text-align: start;
+    height: 48px;
+    box-sizing: border-box;
+}
+
+.tabela-clientes tr:nth-child(odd) {
+    background-color: wheat;
+}
+
+.tabela-clientes tr:hover {
+    background: rgb(200, 200, 200);
+}
+
+#fundo {
+    background-color: rgba(20, 100, 200, 0.2);
+    height: 100%;
+    width: 100%;
+    padding-bottom: 40px;
+}
+
+#card-detalhes-cliente {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+    margin-top: 24px;
+    margin: 40px auto 0;
+}
+
+#card-detalhes-cliente table {
+    margin-bottom: 12px;
+    width: 100%;
+    max-width: 700px;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+#card-detalhes-cliente th,
+#card-detalhes-cliente td {
+    border: 0;
+    padding: 8px;
+    text-align: left;
+}
+
+#card-detalhes-cliente th:first-child,
+#card-detalhes-cliente td:first-child,
+#card-detalhes-cliente th:nth-child(2),
+#card-detalhes-cliente td:nth-child(2) {
+    width: 50%;
 }
