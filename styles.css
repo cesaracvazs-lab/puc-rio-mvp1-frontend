@@ -12,6 +12,11 @@ body {
     height: 100%;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+}
+
 header {
     text-align: center;
     position: relative;
@@ -19,39 +24,13 @@ header {
 }
 
 .titulo {
+    position: fixed;
     color: white;
     width: 100%;
     background-color: black;
     display: inline-block;
-    padding: 2px 0px;
     position: sticky;
     top: 0px;
-}
-
-.btn-listar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 36px;
-    align-self: flex-start;
-    flex: 0 0 auto;
-    padding: 9px 10px;
-    background-color: black;
-    color: white;
-    text-align: center;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-    border-radius: 2px;
-    
-    /* pra centralizar ao centro do cabeçalho da tabela */
-    margin-top: calc((48px - 36px) / 2);
-}
-
-.btn-listar:hover {
-    background-color: greenyellow;
-    color: black;
-    font-weight: bold;
 }
 
 .tabela-clientes {
@@ -85,31 +64,37 @@ header {
 
 .tabela-clientes td {
     border: 1px solid black;
-    padding: 2px 0px 2px 4px;
+    padding: 4px 0px 4px 6px;
     font-size: 16px;
     text-align: start;
-    height: 48px;
     box-sizing: border-box;
 }
 
 .tabela-clientes tr:nth-child(odd) {
-    background-color: wheat;
+    background-color: blanchedalmond;
 }
 
 .tabela-clientes tr:hover {
     background: rgb(200, 200, 200);
 }
 
-#fundo {
-    background-color: rgba(20, 100, 200, 0.2);
-    height: 100%;
-    width: 100%;
-    padding-bottom: 40px;
+.botoes {
+    padding: 10px;
+    background-color: blanchedalmond;
+    color: black;
 }
 
-#card-detalhes-cliente {
+.botoes:hover {
+    background-color: gray;
+}
+
+.botoes {
+    width: 100%;
+}
+
+.card-cliente {
     background-color: white;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     width: 40%;
@@ -117,7 +102,7 @@ header {
     margin: 40px auto 0;
 }
 
-#card-detalhes-cliente table {
+.card-cliente table {
     margin-bottom: 12px;
     width: 100%;
     max-width: 700px;
@@ -126,16 +111,54 @@ header {
     border-spacing: 0;
 }
 
-#card-detalhes-cliente th,
-#card-detalhes-cliente td {
+.card-cliente th,
+.card-cliente td,
+.card-cliente input,
+.card-cliente select {
     border: 0;
     padding: 8px;
     text-align: left;
 }
 
-#card-detalhes-cliente th:first-child,
-#card-detalhes-cliente td:first-child,
-#card-detalhes-cliente th:nth-child(2),
-#card-detalhes-cliente td:nth-child(2) {
-    width: 50%;
+.card-cliente td,
+.card-cliente input,
+.card-cliente select {
+    font-size: 14px;
+}
+
+#div-fundo {
+    background-color: rgba(20, 100, 200, 0.2);
+    flex: 1;
+    width: 100%;
+    padding-bottom: 40px;
+    display: flex;
+    align-items: stretch;
+}
+
+.selecao {
+    border-style:groove;
+}
+
+#div-botoes {
+    /* TODO: remover - está aqui para debugar */
+    background-color: white; 
+
+    position: fixed;  
+    width: 20%;
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+#div-principal {
+    margin: 0 auto;
+    width: 80%;
+    box-sizing: border-box;
+}
+
+#div-botao-card-cliente {
+    width: fit-content;
+    align-self: flex-end;
+    padding: 1%;
 }

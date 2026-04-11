@@ -1,0 +1,5 @@
+Incluir botão atualizar no cliente contextualizado
+incluir botão incluir Cliente em uma coluna à esquerda da tabela
+
+
+Eu *colocaria* paginação, mas vou deixar apenas 4 inclusões no momento

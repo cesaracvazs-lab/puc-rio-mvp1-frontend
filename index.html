@@ -11,82 +11,155 @@
 </head>
 
 <body>
-    
-    <div id="fundo">
-        <!-- Cabeçalho de informações do sistema -->
-        <header>
-            <div class="titulo">
-                <h1>Hello World!</h1>
-            </div>
-        </header>
 
-        <section class="tabela-clientes">
-            <table id="tabela-clientes">
-                <tr id>
-                    <th>id</th>
-                    <th>nome</th>
-                    <th>assinatura_id</th>
-                    <th>estado_assinatura</th>
-                </tr>
-            </table>
-            <button onclick="montarTabelaClientes()" class="btn-listar">Listar Clientes</button>
-        </section>
+    <!-- Cabeçalho de informações do sistema -->
+    <header>
+        <div class="titulo">
+            <h1>Hello World!</h1>
+        </div>
+    </header>
+    <div id="div-fundo">
+        
+        <div id="div-principal">
+            <section class="tabela-clientes">
+                <table id="tabela-clientes">
+                    <tr id="linha-tabela" onclick="alternarTabela(document.getElementById('tabela-clientes'))">
+                        <th>id</th>
+                        <th>nome</th>
+                        <th>assinatura_id</th>
+                        <th>estado_assinatura</th>
+                    </tr>
+                </table>
+            </section>
 
-        <section id="card-detalhes-cliente">
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>CPF</th>
-                </tr>
-                <tr>
-                    <td id="cliente-id">-</td>
-                    <td id="cliente-cpf">-</td>
-                </tr>
-            </table>
-            <table>
-                <tr>
-                    <th>Nome</th>
-                    <th>Email</th>
-                </tr>
-                <tr>
-                    <td id="cliente-nome">-</td>
-                    <td id="cliente-email">-</td>
-                </tr>
-            </table>
-            <table>
-                <tr>
-                    <th>Data de Nascimento</th>
-                    <th>Data de Cadastro</th>
-                </tr>
-                <tr>
-                    <td id="cliente-data-nascimento">-</td>
-                    <td id="cliente-data-cadastro">-</td>
-                </tr>
-            </table>
-            <table>
-                <tr>
-                    <th>Assinatura ID</th>
-                    <th>Estado da Assinatura</th>
-                </tr>
-                <tr>
-                    <td id="cliente-assinatura-id">-</td>
-                    <td id="cliente-estado-assinatura">-</td>
-                </tr>
-            </table>
-            <table>
-            <tr>
-                <th>Ultima Atualizacao da Assinatura</th>
-                <th>Data de Vigencia da Assinatura</th>
-            </tr>
-            <tr>
-                <td id="cliente-ultima-atualizacao">-</td>
-                <td id="cliente-data-vigencia">-</td>
-            </tr>
-            </table>
-        </section>
+            <section class = card-cliente id="card-detalhes-cliente">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>CPF</th>
+                    </tr>
+                    <tr>
+                        <td id="cliente-id">-</td>
+                        <td id="cliente-cpf">-</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                    </tr>
+                    <tr>
+                        <td id="cliente-nome">-</td>
+                        <td id="cliente-email">-</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>Data de Nascimento</th>
+                        <th>Data de Cadastro</th>
+                    </tr>
+                    <tr>
+                        <td id="cliente-data-nascimento">-</td>
+                        <td id="cliente-data-cadastro">-</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>Assinatura ID</th>
+                        <th>Estado da Assinatura</th>
+                    </tr>
+                    <tr>
+                        <td id="cliente-assinatura-id">-</td>
+                        <td id="cliente-estado-assinatura">-</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>Ultima Atualizacao da Assinatura</th>
+                        <th>Data de Vigencia da Assinatura</th>
+                    </tr>
+                    <tr>
+                        <td id="cliente-ultima-atualizacao">-</td>
+                        <td id="cliente-data-vigencia">-</td>
+                    </tr>
+                </table>
+                <div id="div-botao-card-cliente">
+                    <button onclick="alternarTabela(document.getElementById('tabela-clientes'))" class="botoes" id="botao-editar">Editar</button>
+                </div>
+                </section>
+
+                <section class = card-cliente id="card-edicao-cliente">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>CPF</th>
+                    </tr>
+                    <tr>
+                        <td id="cliente-id">-</td>
+                        <td id="cliente-cpf">-</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" id="novo-cliente-nome" placeholder="Nome Sobrenome">
+                        </td>
+                        <td>
+                            <input type="email" id="novo-cliente-email" placeholder="email@dominio.com">
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>Data de Nascimento</th>
+                        <th>Data de Cadastro</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" id="novo-cliente-data-nascimento" placeholder="dd/mm/aaaa">
+                        </td>
+                        <td id="cliente-data-cadastro">-</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>Assinatura ID</th>
+                        <th>Estado da Assinatura</th>
+                    </tr>
+                    <tr>
+                        <td id="novo-cliente-assinatura-id">
+                            <select class = "selecao" id = "selecao-assinaturas">
+                                <option>Selecione uma Assinatura</option>
+                            </select>
+                        </td>
+                        <td id="cliente-estado-assinatura">-</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>Ultima Atualizacao da Assinatura</th>
+                        <th>Data de Vigencia da Assinatura</th>
+                    </tr>
+                    <tr>
+                        <td id="cliente-ultima-atualizacao">-</td>
+                        <td id="cliente-data-vigencia">-</td>
+                    </tr>
+                </table>
+                <div id="div-botao-card-cliente">
+                    <button onclick="alternarTabela(document.getElementById('tabela-clientes'))" class="botoes" id="botao-editar">Salvar</button>
+                </div>
+                </section>
+        </div>
+        </div>
 
         <script src="./src/App.js"></script>
         <script src="./src/model/ClienteModel.js"></script>
+        <script src="./src/service/ClienteService.js"></script>
+        <script src="./src/component/viewModel/ClienteViewModel.js"></script>
     </div>
 </body>
 </html>
