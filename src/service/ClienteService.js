@@ -24,3 +24,16 @@ async function detalharCliente(id) {
         console.error('Error:', error);
     }
 }
+
+// TODO: parei aqui
+async function excluirCliente(id) {
+    const url = root_url + 'excluir_cliente?id=' + id;
+
+    try {
+        const respostaApi = await fetch(url, { method: 'delete' });
+        const respostaDetalharCliente = await respostaApi.json();
+        return respostaDetalharCliente;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}

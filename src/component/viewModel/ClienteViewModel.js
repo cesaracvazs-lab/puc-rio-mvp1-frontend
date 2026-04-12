@@ -3,6 +3,7 @@
 let linhaSelecionadaTabela = null;
 let isTabelaExpandida = false;
 let idClienteContextualizado = null;
+const COR_LINHA_CLIENTE_CONTEXTUALIZADO = 'rgba(20, 101, 200, 0.5)';
 
 async function montarTabelaListaClientes() {
     const respostaListarClientes = await listarClientes();
@@ -18,21 +19,20 @@ async function montarTabelaListaClientes() {
 function adicionarLinhaTabelaClientes(cliente) {
     const tabela = document.getElementById('tabela-clientes');
     const linha = tabela.insertRow(-1);
+    linha.id = cliente.id;
 
-    // adiciona eventListener para a linha criada
     linha.addEventListener('click', async () => {
         const card = document.getElementById("card-detalhes-cliente");
-        alternarCorLinhaSelecionada(linha);
-        linhaSelecionadaTabela = linha;
+        const linhaFoiSelecionada = alternarCorLinhaSelecionada(linha);
 
-        if(card.style.display === "flex" && idClienteContextualizado === cliente.id) {
+        if (!linhaFoiSelecionada) {
             card.style.display = "none";
-        }
-        else {
-            await montarCardDetalhesCliente(cliente.id);
-            card.style.display = "flex";
+            idClienteContextualizado = null;
+            return;
         }
 
+        await montarCardDetalhesCliente(cliente.id);
+        card.style.display = "flex";
         idClienteContextualizado = cliente.id;
     });
 
@@ -40,6 +40,11 @@ function adicionarLinhaTabelaClientes(cliente) {
         const celula = linha.insertCell(i);
         celula.textContent = valor;
     });
+
+    if (idClienteContextualizado === cliente.id) {
+        linha.style.setProperty('background-color', COR_LINHA_CLIENTE_CONTEXTUALIZADO, 'important');
+        linhaSelecionadaTabela = linha;
+    }
 }
 
 async function montarCardDetalhesCliente(id) {
@@ -61,6 +66,7 @@ async function montarCardDetalhesCliente(id) {
 }
 
 // Funções auxiliares
+
 async function alternarTabela(tabela) {
     if (isTabelaExpandida) {
         recolherTabela(tabela);
@@ -78,8 +84,60 @@ function recolherTabela(tabela) {
 }
 
 function alternarCorLinhaSelecionada(linha) {
-    if (linhaSelecionadaTabela) {
-        linhaSelecionadaTabela.style.backgroundColor = '';
+    if (linhaSelecionadaTabela === linha) {
+        linhaSelecionadaTabela.style.removeProperty('background-color');
+        linhaSelecionadaTabela = null;
+        return false;
     }
-    linha.style.backgroundColor = 'rgba(20, 101, 200, 0.5)';
+
+    if (linhaSelecionadaTabela) {
+        linhaSelecionadaTabela.style.removeProperty('background-color');
+    }
+
+    linha.style.setProperty('background-color', COR_LINHA_CLIENTE_CONTEXTUALIZADO, 'important');
+    linhaSelecionadaTabela = linha;
+
+    return true;
+}
+
+// botao
+async function excluirClienteContextualizado() {
+    const card = document.getElementById("card-detalhes-cliente");
+    const tabelaClientes = document.getElementById("tabela-clientes");
+    const linha = tabelaClientes.rows.namedItem(String(idClienteContextualizado));
+
+    if(confirm("Excluir Você tem certeza, amigão? id = " + idClienteContextualizado)) {
+        await excluirCliente(idClienteContextualizado);
+
+        card.style.display = "none";
+        excluirLinhaTabela(linha);
+        idClienteContextualizado = null;
+    }
+}
+
+// TODO:
+// recarregar tabela
+/*
+    1 esconder Card detalhar-cliente
+    2 mostrar Card editar-cliente
+    3 clique em Salvar
+    4 processar alterações
+    se sucesso:
+    5 esconder Card editar-cliente
+    --- preciso atualizar card detalhar e linha da tabela? ---
+    6 mostrar Card detalhar-cliente 
+*/
+async function editarClienteContextualizado() {
+    if(confirm("Editar Você tem certeza, amigão? id = " + idClienteContextualizado)) {
+    }
+}
+
+function excluirLinhaTabela(linha) {
+    if (!linha) return;
+
+    if (linhaSelecionadaTabela === linha) {
+        linhaSelecionadaTabela = null;
+    }
+
+    linha.remove();
 }

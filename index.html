@@ -83,8 +83,21 @@
                         <td id="cliente-data-vigencia">-</td>
                     </tr>
                 </table>
+
                 <div id="div-botao-card-cliente">
-                    <button onclick="alternarTabela(document.getElementById('tabela-clientes'))" class="botoes" id="botao-editar">Editar</button>
+                    <button onclick="editarClienteContextualizado()"  class="botoes" id="botao-editar">
+                        <th>
+                            <img src="https://cdn-icons-png.flaticon.com/256/3917/3917376.png" width="15px" height="15px">
+                        </th>
+                        <th>Editar Cliente</th>
+                    </button>
+
+                    <button onclick="excluirClienteContextualizado()" class="botoes" id="botao-excluir">
+                        <th>
+                            <img src="https://cdn-icons-png.flaticon.com/512/126/126468.png" width="15px" height="15px">
+                        </th>
+                        <th>Excluir Cliente</th>
+                    </button>
                 </div>
                 </section>
 

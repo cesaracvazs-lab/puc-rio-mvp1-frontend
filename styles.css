@@ -47,6 +47,7 @@ header {
     border-collapse: collapse;
     cursor: pointer;
     position: relative;
+    padding: 12px 8px 12px 10px;
     font-size: 18px;
     transition: 0.2s;
     text-align: start;
@@ -56,18 +57,48 @@ header {
 
 .tabela-clientes th {
     border: 1px solid black;
+    border-collapse: collapse;
+    cursor: pointer;
+    position: relative;
     padding: 12px 8px 12px 10px;
+    font-size: 18px;
+    transition: 0.2s;
     text-align: start;
-    height: 48px;
-    box-sizing: border-box;
+}
+
+/* define largura das colunas id e lixeira */
+.tabela-clientes th:nth-child(1),
+.tabela-clientes td:nth-child(1),
+.tabela-clientes th:nth-child(5),
+.tabela-clientes td:nth-child(5) {
+    width: 5%;
+    padding: 0px;
+    text-align: center;
+}
+
+/* define largura da coluna assinatura_id e estado_assinatura */
+.tabela-clientes th:nth-child(2),
+.tabela-clientes td:nth-child(2) {
+    width: 50%;
+}
+
+/* define largura das colunas assinatura_id e estado_assinatura */
+.tabela-clientes th:nth-child(3),
+.tabela-clientes td:nth-child(3),
+.tabela-clientes th:nth-child(4),
+.tabela-clientes td:nth-child(4) {
+    width: 20%;
 }
 
 .tabela-clientes td {
     border: 1px solid black;
+    border-collapse: collapse;
+    cursor: pointer;
+    position: relative;
     padding: 4px 0px 4px 6px;
     font-size: 16px;
+    transition: 0.2s;
     text-align: start;
-    box-sizing: border-box;
 }
 
 .tabela-clientes tr:nth-child(odd) {
@@ -158,7 +189,13 @@ header {
 }
 
 #div-botao-card-cliente {
+    display: flex;
     width: fit-content;
     align-self: flex-end;
     padding: 1%;
+    gap: 8px;
+}
+
+#div-botao-card-cliente .botoes {
+    width: auto;
 }

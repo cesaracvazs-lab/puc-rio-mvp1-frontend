@@ -1,5 +1,25 @@
 Incluir botão atualizar no cliente contextualizado
 incluir botão incluir Cliente em uma coluna à esquerda da tabela
-
+Fazer os popup de confirmação
 
 Eu *colocaria* paginação, mas vou deixar apenas 4 inclusões no momento
+
+
+
+
+Editar:
+1 esconder Card detalhar-cliente
+2 mostrar Card editar-cliente
+3 clique em Salvar
+4 processar alterações
+se sucesso:
+5 esconder Card editar-cliente
+--- preciso atualizar card detalhar e linha da tabela? ---
+6 mostrar Card detalhar-cliente 
+
+V excluir:
+1 processar exclusão
+se sucesso:
+2 remover linha da tabela
+3 esconder card editar-cliente
+4? desfazer tabela e criar de novo?
