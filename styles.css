@@ -157,6 +157,11 @@ header {
     font-size: 14px;
 }
 
+.card-cliente input,
+.card-cliente select {
+    background-color: lightgray;
+}
+
 #div-fundo {
     background-color: rgba(20, 100, 200, 0.2);
     flex: 1;

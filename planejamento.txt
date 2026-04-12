@@ -8,6 +8,10 @@ Eu *colocaria* paginação, mas vou deixar apenas 4 inclusões no momento
 
 
 Editar:
+V quando estou em editar e clicar na linha contextualizada, quero que suma o card editar
+V quando estou em editar e clicar em alguma linha que não a contextualizada, quero que apareça o card detalhar da linha selecionada
+mostrar detalhes da linha selecionada nos dados editaveis ou na "sugestao"
+
 1 esconder Card detalhar-cliente
 2 mostrar Card editar-cliente
 3 clique em Salvar
@@ -23,3 +27,8 @@ se sucesso:
 2 remover linha da tabela
 3 esconder card editar-cliente
 4? desfazer tabela e criar de novo?
+
+
+
+corrigir listaAssinaturas crescendo
+corrigir linha da tabela atualizada

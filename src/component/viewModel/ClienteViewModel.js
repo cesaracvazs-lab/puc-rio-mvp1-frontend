@@ -1,19 +1,40 @@
 // UI State & bindings
 
-let linhaSelecionadaTabela = null;
 let isTabelaExpandida = false;
+let isCardDetalhesVisivel = false;
+let isCardEdicaoVisivel = false;
+
+let linhaSelecionadaTabela = null;
 let idClienteContextualizado = null;
+let detalhesClienteContextualizado = null;
+
 const COR_LINHA_CLIENTE_CONTEXTUALIZADO = 'rgba(20, 101, 200, 0.5)';
 
 async function montarTabelaListaClientes() {
-    const respostaListarClientes = await listarClientes();
-    if (!respostaListarClientes || !Array.isArray(respostaListarClientes.clientes)) return;
+    const listaClientes = await listarClientes();
+    if (!Array.isArray(listaClientes)) return;
 
-    respostaListarClientes.clientes.forEach((cliente) => {
+    listaClientes.forEach((cliente) => {
         adicionarLinhaTabelaClientes(cliente);
     });
 
     isTabelaExpandida = true;
+}
+
+async function adicionarOpcoesAssinatura() {
+    const selecao = document.getElementById("selecao-assinaturas");
+    const listaAssinaturas = await listarAssinaturas();
+
+    while (selecao.length > 1) {
+        selecao.remove(1);
+    }
+
+    for(const assinatura of listaAssinaturas) {
+        const option = document.createElement('option');
+        option.value = assinatura.id;
+        option.textContent = assinatura.nome;
+        selecao.add(option);
+    }
 }
 
 function adicionarLinhaTabelaClientes(cliente) {
@@ -22,21 +43,34 @@ function adicionarLinhaTabelaClientes(cliente) {
     linha.id = cliente.id;
 
     linha.addEventListener('click', async () => {
-        const card = document.getElementById("card-detalhes-cliente");
+        const cardDetalhesCliente = document.getElementById("card-detalhes-cliente");
+        const cardEdicaoCliente = document.getElementById("card-edicao-cliente");
         const linhaFoiSelecionada = alternarCorLinhaSelecionada(linha);
 
         if (!linhaFoiSelecionada) {
-            card.style.display = "none";
+            cardDetalhesCliente.style.display = "none";
+            isCardDetalhesVisivel = false;
+            
+            cardEdicaoCliente.style.display = "none";
+            isCardEdicaoVisivel = false;
+
             idClienteContextualizado = null;
+            detalhesClienteContextualizado = null;
             return;
         }
 
         await montarCardDetalhesCliente(cliente.id);
-        card.style.display = "flex";
+
+        cardEdicaoCliente.style.display = "none";
+        isCardEdicaoVisivel = false;
+    
+        cardDetalhesCliente.style.display = "flex";
+        isCardDetalhesVisivel = true;
+
         idClienteContextualizado = cliente.id;
     });
 
-    listarClientesDto(cliente).forEach((valor, i) => {
+    [cliente.id, cliente.nome, cliente.assinatura_id, cliente.estado_assinatura].forEach((valor, i) => {
         const celula = linha.insertCell(i);
         celula.textContent = valor;
     });
@@ -48,21 +82,48 @@ function adicionarLinhaTabelaClientes(cliente) {
 }
 
 async function montarCardDetalhesCliente(id) {
-    const resposta = await detalharCliente(id);
-    const cliente = resposta?.cliente || resposta;
+    const cliente = await detalharCliente(id);
+    detalhesClienteContextualizado = cliente;
 
     if (!cliente) return;
 
-    document.getElementById('cliente-id').textContent = cliente.id ?? '-';
-    document.getElementById('cliente-cpf').textContent = cliente.cpf ?? '-';
-    document.getElementById('cliente-nome').textContent = cliente.nome ?? '-';
-    document.getElementById('cliente-email').textContent = cliente.email ?? '-';
-    document.getElementById('cliente-data-nascimento').textContent = cliente.data_nascimento ?? '-';
-    document.getElementById('cliente-data-cadastro').textContent = cliente.data_cadastro ?? '-';
-    document.getElementById('cliente-assinatura-id').textContent = cliente.assinatura_id ?? '-';
-    document.getElementById('cliente-estado-assinatura').textContent = cliente.estado_assinatura ?? '-';
-    document.getElementById('cliente-ultima-atualizacao').textContent = cliente.ultima_atualizacao_assinatura ?? '-';
-    document.getElementById('cliente-data-vigencia').textContent = cliente.data_vigencia_assinatura ?? '-';
+    document.getElementById('detalhes-cliente-id').textContent = cliente.id ?? '-';
+    document.getElementById('detalhes-cliente-cpf').textContent = cliente.cpf ?? '-';
+    document.getElementById('detalhes-cliente-nome').textContent = cliente.nome ?? '-';
+    document.getElementById('detalhes-cliente-email').textContent = cliente.email ?? '-';
+    document.getElementById('detalhes-cliente-data-nascimento').textContent = cliente.data_nascimento ?? '-';
+    document.getElementById('detalhes-cliente-data-cadastro').textContent = cliente.data_cadastro ?? '-';
+    let nomeAssinatura = '-';
+    if (cliente.assinatura_id) {
+        const assinatura = await detalharAssinatura(cliente.assinatura_id);
+        nomeAssinatura = assinatura?.nome ?? '-';
+    }
+    document.getElementById('detalhes-cliente-assinatura-nome').textContent = nomeAssinatura;
+    document.getElementById('detalhes-cliente-estado-assinatura').textContent = cliente.estado_assinatura ?? '-';
+    document.getElementById('detalhes-cliente-ultima-atualizacao').textContent = cliente.ultima_atualizacao_assinatura ?? '-';
+    document.getElementById('detalhes-cliente-data-vigencia').textContent = cliente.data_vigencia_assinatura ?? '-';
+}
+
+async function montarCardEdicaoClienteContextualizado() {
+    adicionarOpcoesAssinatura();
+    alternarCardsDetalheEdicao();
+    
+    const cliente = detalhesClienteContextualizado;
+    if (!cliente) return;
+
+    // Campos fixos (read-only)
+    document.getElementById('edicao-cliente-id').textContent = cliente.id ?? '-';
+    document.getElementById('edicao-cliente-cpf').textContent = cliente.cpf ?? '-';
+    document.getElementById('edicao-cliente-data-cadastro').textContent = cliente.data_cadastro ?? '-';
+    document.getElementById('edicao-cliente-estado-assinatura').textContent = cliente.estado_assinatura ?? '-';
+    document.getElementById('edicao-cliente-ultima-atualizacao').textContent = cliente.ultima_atualizacao_assinatura ?? '-';
+    document.getElementById('edicao-cliente-data-vigencia').textContent = cliente.data_vigencia_assinatura ?? '-';
+    
+    // Campos editáveis (inputs)
+    document.getElementById('edicao-cliente-nome').value = cliente.nome ?? '';
+    document.getElementById('edicao-cliente-email').value = cliente.email ?? '';
+    document.getElementById('edicao-cliente-data-nascimento').value = cliente.data_nascimento ?? '';
+    document.getElementById('selecao-assinaturas').value = cliente.assinatura_id ?? '';
 }
 
 // Funções auxiliares
@@ -89,7 +150,7 @@ function alternarCorLinhaSelecionada(linha) {
         linhaSelecionadaTabela = null;
         return false;
     }
-
+    
     if (linhaSelecionadaTabela) {
         linhaSelecionadaTabela.style.removeProperty('background-color');
     }
@@ -102,34 +163,49 @@ function alternarCorLinhaSelecionada(linha) {
 
 // botao
 async function excluirClienteContextualizado() {
-    const card = document.getElementById("card-detalhes-cliente");
+    const cardDetalhesCliente = document.getElementById("card-detalhes-cliente");
     const tabelaClientes = document.getElementById("tabela-clientes");
     const linha = tabelaClientes.rows.namedItem(String(idClienteContextualizado));
 
-    if(confirm("Excluir Você tem certeza, amigão? id = " + idClienteContextualizado)) {
-        await excluirCliente(idClienteContextualizado);
-
-        card.style.display = "none";
-        excluirLinhaTabela(linha);
-        idClienteContextualizado = null;
+    if(!confirm("Excluir Você tem certeza, amigão? id = " + idClienteContextualizado)) {
+        return;
     }
+    
+    await excluirCliente(idClienteContextualizado);
+
+    cardDetalhesCliente.style.display = "none";
+    isCardDetalhesVisivel = false;
+
+    excluirLinhaTabela(linha);
+    idClienteContextualizado = null;
+    detalhesClienteContextualizado = null;
 }
 
-// TODO:
-// recarregar tabela
-/*
-    1 esconder Card detalhar-cliente
-    2 mostrar Card editar-cliente
-    3 clique em Salvar
-    4 processar alterações
-    se sucesso:
-    5 esconder Card editar-cliente
-    --- preciso atualizar card detalhar e linha da tabela? ---
-    6 mostrar Card detalhar-cliente 
-*/
 async function editarClienteContextualizado() {
-    if(confirm("Editar Você tem certeza, amigão? id = " + idClienteContextualizado)) {
-    }
+    await montarCardEdicaoClienteContextualizado();
+    alternarCardsDetalheEdicao();
+}
+
+async function salvarEdicaoCliente() {
+    const clienteAtualizado = montarRequisicaoCardEdicao();
+    await atualizarCliente(clienteAtualizado);
+
+    await montarCardDetalhesCliente(idClienteContextualizado);
+    atualizarLinhaTabelaClienteContextualizado();
+    alternarCardsDetalheEdicao();
+}
+
+function atualizarLinhaTabelaClienteContextualizado() {
+    if (!idClienteContextualizado || !detalhesClienteContextualizado) return;
+
+    const tabelaClientes = document.getElementById("tabela-clientes");
+    const linha = tabelaClientes.rows.namedItem(String(idClienteContextualizado));
+    if (!linha || linha.cells.length < 4) return;
+
+    linha.cells[0].textContent = detalhesClienteContextualizado.id ?? '-';
+    linha.cells[1].textContent = detalhesClienteContextualizado.nome ?? '-';
+    linha.cells[2].textContent = detalhesClienteContextualizado.assinatura_id ?? '-';
+    linha.cells[3].textContent = detalhesClienteContextualizado.estado_assinatura ?? '-';
 }
 
 function excluirLinhaTabela(linha) {
@@ -140,4 +216,35 @@ function excluirLinhaTabela(linha) {
     }
 
     linha.remove();
+}
+
+function alternarCardsDetalheEdicao() {
+    const cardEdicaoCliente = document.getElementById("card-edicao-cliente");
+    const cardDetalhesCliente = document.getElementById("card-detalhes-cliente");
+    
+    if(!isCardDetalhesVisivel) {
+        cardDetalhesCliente.style.display = "flex";
+        isCardDetalhesVisivel = true;
+
+        cardEdicaoCliente.style.display = "none";
+        isCardEdicaoVisivel = false;
+    }
+    else {
+        cardDetalhesCliente.style.display = "none";
+        isCardDetalhesVisivel = false;
+        
+        cardEdicaoCliente.style.display = "flex";
+        isCardEdicaoVisivel = true;
+
+    }
+}
+
+function montarRequisicaoCardEdicao() {
+    return {
+        id: idClienteContextualizado,
+        nome: document.getElementById('edicao-cliente-nome').value,
+        email: document.getElementById('edicao-cliente-email').value,
+        data_nascimento: document.getElementById('edicao-cliente-data-nascimento').value,
+        assinatura_id: document.getElementById('selecao-assinaturas').value || null
+    };
 }

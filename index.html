@@ -39,8 +39,8 @@
                         <th>CPF</th>
                     </tr>
                     <tr>
-                        <td id="cliente-id">-</td>
-                        <td id="cliente-cpf">-</td>
+                        <td id="detalhes-cliente-id">-</td>
+                        <td id="detalhes-cliente-cpf">-</td>
                     </tr>
                 </table>
                 <table>
@@ -49,8 +49,8 @@
                         <th>Email</th>
                     </tr>
                     <tr>
-                        <td id="cliente-nome">-</td>
-                        <td id="cliente-email">-</td>
+                        <td id="detalhes-cliente-nome">-</td>
+                        <td id="detalhes-cliente-email">-</td>
                     </tr>
                 </table>
                 <table>
@@ -59,8 +59,8 @@
                         <th>Data de Cadastro</th>
                     </tr>
                     <tr>
-                        <td id="cliente-data-nascimento">-</td>
-                        <td id="cliente-data-cadastro">-</td>
+                        <td id="detalhes-cliente-data-nascimento">-</td>
+                        <td id="detalhes-cliente-data-cadastro">-</td>
                     </tr>
                 </table>
                 <table>
@@ -69,8 +69,8 @@
                         <th>Estado da Assinatura</th>
                     </tr>
                     <tr>
-                        <td id="cliente-assinatura-id">-</td>
-                        <td id="cliente-estado-assinatura">-</td>
+                        <td id="detalhes-cliente-assinatura-nome">-</td>
+                        <td id="detalhes-cliente-estado-assinatura">-</td>
                     </tr>
                 </table>
                 <table>
@@ -79,13 +79,13 @@
                         <th>Data de Vigencia da Assinatura</th>
                     </tr>
                     <tr>
-                        <td id="cliente-ultima-atualizacao">-</td>
-                        <td id="cliente-data-vigencia">-</td>
+                        <td id="detalhes-cliente-ultima-atualizacao">-</td>
+                        <td id="detalhes-cliente-data-vigencia">-</td>
                     </tr>
                 </table>
 
                 <div id="div-botao-card-cliente">
-                    <button onclick="editarClienteContextualizado()"  class="botoes" id="botao-editar">
+                    <button onclick="montarCardEdicaoClienteContextualizado()"  class="botoes" id="botao-editar">
                         <th>
                             <img src="https://cdn-icons-png.flaticon.com/256/3917/3917376.png" width="15px" height="15px">
                         </th>
@@ -108,8 +108,8 @@
                         <th>CPF</th>
                     </tr>
                     <tr>
-                        <td id="cliente-id">-</td>
-                        <td id="cliente-cpf">-</td>
+                        <td id="edicao-cliente-id">-</td>
+                        <td id="edicao-cliente-cpf">-</td>
                     </tr>
                 </table>
                 <table>
@@ -119,10 +119,10 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" id="novo-cliente-nome" placeholder="Nome Sobrenome">
+                            <input type="text" id="edicao-cliente-nome" placeholder="Nome Sobrenome">
                         </td>
                         <td>
-                            <input type="email" id="novo-cliente-email" placeholder="email@dominio.com">
+                            <input type="email" id="edicao-cliente-email" placeholder="email@dominio.com">
                         </td>
                     </tr>
                 </table>
@@ -133,9 +133,9 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" id="novo-cliente-data-nascimento" placeholder="dd/mm/aaaa">
+                            <input type="text" id="edicao-cliente-data-nascimento" placeholder="dd/mm/aaaa">
                         </td>
-                        <td id="cliente-data-cadastro">-</td>
+                        <td id="edicao-cliente-data-cadastro">-</td>
                     </tr>
                 </table>
                 <table>
@@ -144,12 +144,11 @@
                         <th>Estado da Assinatura</th>
                     </tr>
                     <tr>
-                        <td id="novo-cliente-assinatura-id">
+                        <td id="edicao-cliente-assinatura-id">
                             <select class = "selecao" id = "selecao-assinaturas">
-                                <option>Selecione uma Assinatura</option>
                             </select>
                         </td>
-                        <td id="cliente-estado-assinatura">-</td>
+                        <td id="edicao-cliente-estado-assinatura">-</td>
                     </tr>
                 </table>
                 <table>
@@ -158,12 +157,13 @@
                         <th>Data de Vigencia da Assinatura</th>
                     </tr>
                     <tr>
-                        <td id="cliente-ultima-atualizacao">-</td>
-                        <td id="cliente-data-vigencia">-</td>
+                        <td id="edicao-cliente-ultima-atualizacao">-</td>
+                        <td id="edicao-cliente-data-vigencia">-</td>
                     </tr>
                 </table>
                 <div id="div-botao-card-cliente">
-                    <button onclick="alternarTabela(document.getElementById('tabela-clientes'))" class="botoes" id="botao-editar">Salvar</button>
+                    <button onclick="alternarCardsDetalheEdicao()" class="botoes" id="botao-cancelar">Cancelar</button>
+                    <button onclick="salvarEdicaoCliente()" class="botoes" id="botao-salvar">Salvar</button>
                 </div>
                 </section>
         </div>
@@ -171,7 +171,9 @@
 
         <script src="./src/App.js"></script>
         <script src="./src/model/ClienteModel.js"></script>
+        <script src="./src/model/AssinaturaModel.js"></script>
         <script src="./src/service/ClienteService.js"></script>
+        <script src="./src/service/AssinaturaService.js"></script>
         <script src="./src/component/viewModel/ClienteViewModel.js"></script>
     </div>
 </body>
