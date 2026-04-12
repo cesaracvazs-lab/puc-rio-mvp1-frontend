@@ -175,25 +175,13 @@ header {
     border-style:groove;
 }
 
-#div-botoes {
-    /* TODO: remover - está aqui para debugar */
-    background-color: white; 
-
-    position: fixed;  
-    width: 20%;
-    min-width: 220px;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-}
-
 #div-principal {
     margin: 0 auto;
     width: 80%;
     box-sizing: border-box;
 }
 
-#div-botao-card-cliente {
+.div-botao-card-cliente {
     display: flex;
     width: fit-content;
     align-self: flex-end;
@@ -201,6 +189,6 @@ header {
     gap: 8px;
 }
 
-#div-botao-card-cliente .botoes {
+.div-botao-card-cliente .botoes {
     width: auto;
 }

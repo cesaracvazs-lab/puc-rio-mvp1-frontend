@@ -15,7 +15,7 @@
     <!-- Cabeçalho de informações do sistema -->
     <header>
         <div class="titulo">
-            <h1>Hello World!</h1>
+            <h1>Gerenciador de Clientes</h1>
         </div>
     </header>
     <div id="div-fundo">
@@ -84,19 +84,19 @@
                     </tr>
                 </table>
 
-                <div id="div-botao-card-cliente">
+                <div class="div-botao-card-cliente">
                     <button onclick="montarCardEdicaoClienteContextualizado()"  class="botoes" id="botao-editar">
-                        <th>
+                        <span>
                             <img src="https://cdn-icons-png.flaticon.com/256/3917/3917376.png" width="15px" height="15px">
-                        </th>
-                        <th>Editar Cliente</th>
+                        </span>
+                        <span>Editar Cliente</span>
                     </button>
 
                     <button onclick="excluirClienteContextualizado()" class="botoes" id="botao-excluir">
-                        <th>
+                        <span>
                             <img src="https://cdn-icons-png.flaticon.com/512/126/126468.png" width="15px" height="15px">
-                        </th>
-                        <th>Excluir Cliente</th>
+                        </span>
+                        <span>Excluir Cliente</span>
                     </button>
                 </div>
                 </section>
@@ -161,7 +161,7 @@
                         <td id="edicao-cliente-data-vigencia">-</td>
                     </tr>
                 </table>
-                <div id="div-botao-card-cliente">
+                <div class="div-botao-card-cliente">
                     <button onclick="alternarCardsDetalheEdicao()" class="botoes" id="botao-cancelar">Cancelar</button>
                     <button onclick="salvarEdicaoCliente()" class="botoes" id="botao-salvar">Salvar</button>
                 </div>
