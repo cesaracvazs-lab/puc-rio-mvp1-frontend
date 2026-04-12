@@ -32,6 +32,10 @@
                 </table>
             </section>
 
+            <section class="acao-incluir-cliente">
+                <button onclick="montarCardInclusaoCliente()" class="botoes" id="botao-incluir-cliente">Incluir Cliente</button>
+            </section>
+
             <section class = card-cliente id="card-detalhes-cliente">
                 <table>
                     <tr>
@@ -164,6 +168,41 @@
                 <div class="div-botao-card-cliente">
                     <button onclick="alternarCardsDetalheEdicao()" class="botoes" id="botao-cancelar">Cancelar</button>
                     <button onclick="salvarEdicaoCliente()" class="botoes" id="botao-salvar">Salvar</button>
+                </div>
+                </section>
+
+                <section class = card-cliente id="card-inclusao-cliente">
+                <table>
+                    <tr>
+                        <th>CPF</th>
+                        <th>Data de Nascimento</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" id="inclusao-cliente-cpf" placeholder="000.000.000-00">
+                        </td>
+                        <td>
+                            <input type="text" id="inclusao-cliente-data-nascimento" placeholder="dd/mm/aaaa">
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" id="inclusao-cliente-nome" placeholder="Nome Sobrenome">
+                        </td>
+                        <td>
+                            <input type="email" id="inclusao-cliente-email" placeholder="email@dominio.com">
+                        </td>
+                    </tr>
+                </table>
+                <div class="div-botao-card-cliente">
+                    <button onclick="cancelarInclusaoCliente()" class="botoes" id="botao-cancelar-inclusao">Cancelar</button>
+                    <button onclick="salvarInclusaoCliente()" class="botoes" id="botao-salvar-inclusao">Salvar</button>
                 </div>
                 </section>
         </div>

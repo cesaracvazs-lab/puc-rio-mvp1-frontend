@@ -3,6 +3,7 @@
 let isTabelaExpandida = false;
 let isCardDetalhesVisivel = false;
 let isCardEdicaoVisivel = false;
+let isCardInclusaoVisivel = false;
 
 let linhaSelecionadaTabela = null;
 let idClienteContextualizado = null;
@@ -63,29 +64,17 @@ function adicionarLinhaTabelaClientes(cliente, listaAssinaturas = []) {
     const nomeAssinatura = obterNomeAssinatura(cliente.assinatura_id, listaAssinaturas);
 
     linha.addEventListener('click', async () => {
-        const cardDetalhesCliente = document.getElementById("card-detalhes-cliente");
-        const cardEdicaoCliente = document.getElementById("card-edicao-cliente");
         const linhaFoiSelecionada = alternarCorLinhaSelecionada(linha);
 
         if (!linhaFoiSelecionada) {
-            cardDetalhesCliente.style.display = "none";
-            isCardDetalhesVisivel = false;
-            
-            cardEdicaoCliente.style.display = "none";
-            isCardEdicaoVisivel = false;
-
+            exibirApenasCard('nenhum');
             idClienteContextualizado = null;
             detalhesClienteContextualizado = null;
             return;
         }
 
         await montarCardDetalhesCliente(cliente.id);
-
-        cardEdicaoCliente.style.display = "none";
-        isCardEdicaoVisivel = false;
-    
-        cardDetalhesCliente.style.display = "flex";
-        isCardDetalhesVisivel = true;
+        exibirApenasCard('detalhes');
 
         idClienteContextualizado = cliente.id;
     });
@@ -129,7 +118,7 @@ async function montarCardEdicaoClienteContextualizado() {
     if (!cliente) return;
 
     await adicionarOpcoesAssinatura(cliente);
-    alternarCardsDetalheEdicao();
+    exibirApenasCard('edicao');
 
     // Campos fixos (read-only)
     document.getElementById('edicao-cliente-id').textContent = cliente.id ?? '-';
@@ -183,18 +172,15 @@ function alternarCorLinhaSelecionada(linha) {
 
 // botao
 async function excluirClienteContextualizado() {
-    const cardDetalhesCliente = document.getElementById("card-detalhes-cliente");
     const tabelaClientes = document.getElementById("tabela-clientes");
     const linha = tabelaClientes.rows.namedItem(String(idClienteContextualizado));
 
-    if(!confirm("Excluir Você tem certeza, amigão? id = " + idClienteContextualizado)) {
+    if(!confirm("Deseja realmente excluir este Cliente? id = " + idClienteContextualizado)) {
         return;
     }
     
     await excluirCliente(idClienteContextualizado);
-
-    cardDetalhesCliente.style.display = "none";
-    isCardDetalhesVisivel = false;
+    exibirApenasCard('nenhum');
 
     excluirLinhaTabela(linha);
     idClienteContextualizado = null;
@@ -203,7 +189,6 @@ async function excluirClienteContextualizado() {
 
 async function editarClienteContextualizado() {
     await montarCardEdicaoClienteContextualizado();
-    alternarCardsDetalheEdicao();
 }
 
 async function salvarEdicaoCliente() {
@@ -212,7 +197,41 @@ async function salvarEdicaoCliente() {
 
     await montarCardDetalhesCliente(idClienteContextualizado);
     await atualizarLinhaTabelaClienteContextualizado();
-    alternarCardsDetalheEdicao();
+    exibirApenasCard('detalhes');
+}
+
+function montarCardInclusaoCliente() {
+    limparContextoClienteSelecionado();
+    limparCamposCardInclusao();
+    exibirApenasCard('inclusao');
+}
+
+function cancelarInclusaoCliente() {
+    if (idClienteContextualizado && detalhesClienteContextualizado) {
+        exibirApenasCard('detalhes');
+        return;
+    }
+
+    exibirApenasCard('nenhum');
+}
+
+async function salvarInclusaoCliente() {
+    const cliente = montarRequisicaoCardInclusao();
+
+    if (!cliente.cpf || !cliente.email || !cliente.nome || !cliente.data_nascimento) {
+        alert('Preencha cpf, email, nome e data_nascimento.');
+        return;
+    }
+
+    try {
+        await incluirCliente(cliente);
+        await recarregarTabelaClientes();
+        limparCamposCardInclusao();
+        exibirApenasCard('nenhum');
+        alert('Cliente incluido com sucesso!');
+    } catch (error) {
+        alert(error?.message || 'Falha ao incluir cliente.');
+    }
 }
 
 async function atualizarLinhaTabelaClienteContextualizado() {
@@ -241,24 +260,69 @@ function excluirLinhaTabela(linha) {
 }
 
 function alternarCardsDetalheEdicao() {
-    const cardEdicaoCliente = document.getElementById("card-edicao-cliente");
-    const cardDetalhesCliente = document.getElementById("card-detalhes-cliente");
-    
-    if(!isCardDetalhesVisivel) {
-        cardDetalhesCliente.style.display = "flex";
-        isCardDetalhesVisivel = true;
-
-        cardEdicaoCliente.style.display = "none";
-        isCardEdicaoVisivel = false;
+    if (isCardEdicaoVisivel) {
+        exibirApenasCard('detalhes');
+        return;
     }
-    else {
-        cardDetalhesCliente.style.display = "none";
-        isCardDetalhesVisivel = false;
-        
-        cardEdicaoCliente.style.display = "flex";
-        isCardEdicaoVisivel = true;
 
+    if (isCardDetalhesVisivel) {
+        exibirApenasCard('edicao');
+        return;
     }
+
+    exibirApenasCard('nenhum');
+}
+
+function limparContextoClienteSelecionado() {
+    if (linhaSelecionadaTabela) {
+        linhaSelecionadaTabela.style.removeProperty('background-color');
+        linhaSelecionadaTabela = null;
+    }
+
+    idClienteContextualizado = null;
+    detalhesClienteContextualizado = null;
+}
+
+function exibirApenasCard(card) {
+    const cardDetalhesCliente = document.getElementById('card-detalhes-cliente');
+    const cardEdicaoCliente = document.getElementById('card-edicao-cliente');
+    const cardInclusaoCliente = document.getElementById('card-inclusao-cliente');
+
+    cardDetalhesCliente.style.display = card === 'detalhes' ? 'flex' : 'none';
+    cardEdicaoCliente.style.display = card === 'edicao' ? 'flex' : 'none';
+    cardInclusaoCliente.style.display = card === 'inclusao' ? 'flex' : 'none';
+
+    isCardDetalhesVisivel = card === 'detalhes';
+    isCardEdicaoVisivel = card === 'edicao';
+    isCardInclusaoVisivel = card === 'inclusao';
+}
+
+function montarRequisicaoCardInclusao() {
+    return {
+        cpf: document.getElementById('inclusao-cliente-cpf').value.trim(),
+        email: document.getElementById('inclusao-cliente-email').value.trim(),
+        nome: document.getElementById('inclusao-cliente-nome').value.trim(),
+        data_nascimento: document.getElementById('inclusao-cliente-data-nascimento').value.trim()
+    };
+}
+
+function limparCamposCardInclusao() {
+    document.getElementById('inclusao-cliente-cpf').value = '';
+    document.getElementById('inclusao-cliente-email').value = '';
+    document.getElementById('inclusao-cliente-nome').value = '';
+    document.getElementById('inclusao-cliente-data-nascimento').value = '';
+}
+
+async function recarregarTabelaClientes() {
+    const tabela = document.getElementById('tabela-clientes');
+    recolherTabela(tabela);
+
+    linhaSelecionadaTabela = null;
+    idClienteContextualizado = null;
+    detalhesClienteContextualizado = null;
+
+    exibirApenasCard('nenhum');
+    await montarTabelaListaClientes();
 }
 
 function montarRequisicaoCardEdicao() {

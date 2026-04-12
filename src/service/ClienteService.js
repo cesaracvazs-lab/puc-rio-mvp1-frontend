@@ -52,3 +52,32 @@ async function atualizarCliente(cliente) {
         console.error('Error:', error);
     }
 }
+
+async function incluirCliente(cliente) {
+    const url = root_url + 'incluir_cliente';
+
+    try {
+        const respostaApi = await fetch(url, {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                cpf: cliente.cpf,
+                email: cliente.email,
+                nome: cliente.nome,
+                data_nascimento: cliente.data_nascimento
+            })
+        });
+
+        const respostaIncluirCliente = await respostaApi.json();
+
+        if (!respostaApi.ok) {
+            const mensagemErro = respostaIncluirCliente?.error || respostaIncluirCliente?.message || 'Erro ao incluir cliente.';
+            throw new Error(mensagemErro);
+        }
+
+        return respostaIncluirCliente;
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+}

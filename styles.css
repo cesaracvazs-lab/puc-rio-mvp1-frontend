@@ -31,6 +31,22 @@ header {
     display: inline-block;
     position: sticky;
     top: 0px;
+    padding: 8px 16px;
+    box-sizing: border-box;
+}
+
+.titulo h1 {
+    margin: 0;
+}
+
+.acao-incluir-cliente {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+#botao-incluir-cliente {
+    width: auto;
 }
 
 .tabela-clientes {
