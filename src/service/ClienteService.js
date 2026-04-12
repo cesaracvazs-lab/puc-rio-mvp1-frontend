@@ -4,7 +4,10 @@ async function listarClientes() {
     const url = root_url + 'listar_clientes';
 
     try {
-        const respostaApi = await fetch(url, { method: 'get' });
+        const respostaApi = await fetch(url, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        });
         const respostaListarClientes = await respostaApi.json();
         
         return listarClientesModel(respostaListarClientes.clientes);
@@ -17,7 +20,10 @@ async function detalharCliente(id) {
     const url = root_url + 'detalhar_cliente?id=' + id;
 
     try {
-        const respostaApi = await fetch(url, { method: 'get' });
+        const respostaApi = await fetch(url, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        });
         const respostaDetalharCliente = await respostaApi.json();
         return respostaDetalharCliente?.cliente || respostaDetalharCliente;
     } catch (error) {
@@ -29,7 +35,10 @@ async function excluirCliente(id) {
     const url = root_url + 'excluir_cliente?id=' + id;
 
     try {
-        const respostaApi = await fetch(url, { method: 'delete' });
+        const respostaApi = await fetch(url, {
+            method: 'DELETE',
+            headers: { 'Accept': 'application/json' }
+        });
         const respostaDetalharCliente = await respostaApi.json();
         return respostaDetalharCliente;
     } catch (error) {
@@ -43,7 +52,10 @@ async function atualizarCliente(cliente) {
     try {
         const respostaApi = await fetch(url, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(cliente)
         });
         const respostaAtualizarCliente = await respostaApi.json();
@@ -58,8 +70,11 @@ async function incluirCliente(cliente) {
 
     try {
         const respostaApi = await fetch(url, {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
                 cpf: cliente.cpf,
                 email: cliente.email,
