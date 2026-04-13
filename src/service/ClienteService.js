@@ -6,13 +6,19 @@ async function listarClientes() {
     try {
         const respostaApi = await fetch(url, {
             method: 'GET',
+            cache: 'no-store',
             headers: { 'Accept': 'application/json' }
         });
         const respostaListarClientes = await respostaApi.json();
-        
-        return listarClientesModel(respostaListarClientes.clientes);
+
+        const clientes = Array.isArray(respostaListarClientes?.clientes)
+            ? respostaListarClientes.clientes
+            : (Array.isArray(respostaListarClientes) ? respostaListarClientes : []);
+
+        return listarClientesModel(clientes);
     } catch (error) {
         console.error('Error:', error);
+        return [];
     }
 }
 
