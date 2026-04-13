@@ -38,12 +38,16 @@ async function detalharCliente(id) {
 }
 
 async function excluirCliente(id) {
-    const url = root_url + 'excluir_cliente?id=' + id;
+    const url = root_url + 'excluir_cliente';
 
     try {
         const respostaApi = await fetch(url, {
             method: 'DELETE',
-            headers: { 'Accept': 'application/json' }
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: id })
         });
         const respostaDetalharCliente = await respostaApi.json();
         return respostaDetalharCliente;
